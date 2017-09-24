@@ -35,7 +35,7 @@ class Translator(object):
         self.session.headers.update({
             'User-Agent': user_agent,
         })
-        self.service_urls = service_urls or ['translate.google.com']
+        self.service_urls = service_urls or ['translate.google.cn']
         self.token_acquirer = TokenAcquirer(session=self.session, host=self.service_urls[0])
 
         # Use HTTP2 Adapter if hyper is installed
@@ -58,7 +58,7 @@ class Translator(object):
         params = utils.build_params(query=text, src=src, dest=dest,
                                     token=token)
         url = urls.TRANSLATE.format(host=self._pick_service_url())
-        r = self.session.get(url, params=params)
+        r = self.session.get(url,verify=False, params=params)
 
         data = utils.format_json(r.text)
         return data

@@ -3,11 +3,15 @@ from pytest import raises
 
 from googletrans import Translator
 
+import sys
+reload(sys)
+
+sys.setdefaultencoding("utf-8")
+
 
 def test_bind_multiple_service_urls():
     service_urls = [
-        'translate.google.com',
-        'translate.google.co.kr',
+        'translate.google.cn',
     ]
 
     translator = Translator(service_urls=service_urls)
@@ -125,3 +129,12 @@ def test_dest_not_in_supported_languages(translator):
 
     with raises(ValueError):
         translator.translate(*args)
+
+
+def test_cn(translator):
+
+
+    tstr = 'Sphinx uses the Jinja templating engine for its HTML templates. Jinja is a text-based engine, and inspired by Django templates, so anyone having used Django will already be familiar with it. It also has excellent documentation for those who need to make themselves familiar with it.'
+    result = translator.translate(tstr, 'zh-CN')
+
+    print(result)
